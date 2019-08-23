@@ -9,6 +9,7 @@ const Login = props => {
     username: '',
     password: ''
   });
+  
 
   const handleChange = e => {
     setLogin({ ...login, [e.target.name]: e.target.value });
@@ -22,7 +23,19 @@ const Login = props => {
 
   const loginSubmit = e => {
     e.preventDefault();
-
+    axios.post(`http://localhost:5000/api/login`, login)
+        .then(res => {
+          localStorage.setItem('token', res.data.payload);
+          props.history.push('/bubblepage');
+          console.log('Successful Login', res.data)
+        })
+        .catch(err => {
+          console.log('Opps, Something happened!', err.response)
+        }) 
+        setLogin({
+          username: '',
+          password: ''
+      })
   }
 
   return (
