@@ -17,7 +17,6 @@ const Login = props => {
       "handleChange",
       e.target.name,
       e.target.value,
-      setLogin()
     );
   }
 
