@@ -8,28 +8,29 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+  // console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  console.log('Colors to edit',colorToEdit)
 
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
   };
 
-  const saveEdit = (color, e) => {
+  const saveEdit = e => {
     e.preventDefault();
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
-    // console.log(color.id)
+    //Thoughts:
+    //colorsToEdit populates with color data when color is clicked.
+    //id can come from colorsToEdit!!!!
+    //ok. now we are grabbing the right data need to update.... <=
     axiosWithAuth()
-      // .put(`http://localhost:5000/api/colors/${color.id}`, color)
-      // .then(res => {
-      //   updateColors(colors.res.data);
-      //   console.log('Save Edit', res.data)
-      // })
-      // .catch(err => console.log('Oh no! Could not save this edit', err.response))
+      .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+      .then(res => {
+        updateColors(res.data);
+        console.log('Save Edit', res.data)
+      })
+      .catch(err => console.log('Oh no! Could not save this edit', err.response))
   };
 
   const deleteColor = color => {
@@ -88,7 +89,7 @@ const ColorList = ({ colors, updateColors }) => {
             />
           </label>
           <div className="button-row">
-            <button type="submit" onClick={() => saveEdit(colors.id)} >save</button>
+            <button type="submit" >save</button>
             <button onClick={() => setEditing(false)}>cancel</button>
           </div>
         </form>
