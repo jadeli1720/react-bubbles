@@ -24,10 +24,17 @@ const ColorList = ({ colors, updateColors }) => {
     //colorsToEdit populates with color data when color is clicked.
     //id can come from colorsToEdit!!!!
     //ok. now we are grabbing the right data need to update.... <=
+    //mapping and if statement?
     axiosWithAuth()
       .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
-        updateColors(res.data);
+        updateColors(colors.map(color => {
+          if(color.id === colorToEdit.id) {
+            return colorToEdit;
+          } else {
+            return color;
+          }
+        }));
         console.log('Save Edit', res.data)
       })
       .catch(err => console.log('Oh no! Could not save this edit', err.response))
