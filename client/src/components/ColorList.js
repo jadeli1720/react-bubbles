@@ -17,20 +17,27 @@ const ColorList = ({ colors, updateColors }) => {
     setColorToEdit(color);
   };
 
-  const saveEdit = e => {
+  const saveEdit = (color, e) => {
     e.preventDefault();
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    console.log(color.id)
+    axiosWithAuth()
+      .put(`http://localhost:5000/api/colors/${color.id}`)
+      .then(res => {
+        updateColors(res.data);
+        console.log('Save Edit', res.data)
+      })
+      .catch(err => console.log('Oh no! Could not save this edit', err.response))
   };
 
   const deleteColor = color => {
     // make a delete request to delete this color
-    // console.log(color);//logging the color of the delete color on button click
     axiosWithAuth()
         .delete(`http://localhost:5000/api/colors/${color.id}`)
         .then(res => {
-          updateColors(res.data)
+          // updateColors(res.data)
           console.log('Delete Color', res.data)
         })
         .catch(err => console.log('Opps, could not delete color', err.response));
@@ -80,7 +87,7 @@ const ColorList = ({ colors, updateColors }) => {
             />
           </label>
           <div className="button-row">
-            <button type="submit">save</button>
+            <button type="submit" onClick={() => saveEdit(colors.id)} >save</button>
             <button onClick={() => setEditing(false)}>cancel</button>
           </div>
         </form>
