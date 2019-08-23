@@ -22,14 +22,14 @@ const ColorList = ({ colors, updateColors }) => {
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
-    console.log(color.id)
+    // console.log(color.id)
     axiosWithAuth()
-      .put(`http://localhost:5000/api/colors/${color.id}`)
-      .then(res => {
-        updateColors(res.data);
-        console.log('Save Edit', res.data)
-      })
-      .catch(err => console.log('Oh no! Could not save this edit', err.response))
+      // .put(`http://localhost:5000/api/colors/${color.id}`, color)
+      // .then(res => {
+      //   updateColors(colors.res.data);
+      //   console.log('Save Edit', res.data)
+      // })
+      // .catch(err => console.log('Oh no! Could not save this edit', err.response))
   };
 
   const deleteColor = color => {
@@ -37,7 +37,8 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
         .delete(`http://localhost:5000/api/colors/${color.id}`)
         .then(res => {
-          // updateColors(res.data)
+          updateColors(colors.filter(oneColor => oneColor.id !== res.data))
+          // updateColors(res.data)//does not work. recieve map error
           console.log('Delete Color', res.data)
         })
         .catch(err => console.log('Opps, could not delete color', err.response));
